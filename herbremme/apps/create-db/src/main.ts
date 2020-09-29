@@ -1,7 +1,9 @@
+import { spawn } from 'child_process'
 import $ from 'cheerio'
 import { Remedy, WebMDInfo } from '@herbremme/interfaces'
 import { writeFileSync } from 'fs'
 import fetch from 'node-fetch'
+import { resolve } from 'url'
 
 const filename = "db.json" // TODO mongodb db
 async function main() {
@@ -14,12 +16,19 @@ async function main() {
  * @param remedyName 
  */
 
+//  TODO use duckduckgo
 async function getWebMDLinkFromRemedy(remedyName: string): Promise<string | null> {
-  const ret = await fetch(`https://www.google.com/search?q=webmd ${remedyName} Vitamins`)
-  const html = await ret.text()
   // console.log(html)
   // console.log($.load(html)('#search .r'))
-  const firstRet = $.load(html)('#search .r a').map((i, e) => $(e).attr('href')).toArray()[0].toString()
+  const html = await new Promise<string>((resolve, reject) => {
+    console.log(`${__dirname}/get-site-body.py`)
+    const pythonProcess = spawn('python3.6', [`./python/get-site-body.py`, `https://duckduckgo.com/?q=webmd ${remedyName} vitamin`])
+    pythonProcess.stdout.on('data', (data) => resolve(data as string))
+    pythonProcess.stderr.on('data', (data) => resolve(data as string))
+  })
+  console.log(html.toString())
+
+  const firstRet = $.load(html)('.results--main .result__title a').map((i, e) => $(e).attr('href')).toArray()[0].toString()
   // Not webMD
   if (!firstRet.includes('webmd.com') || !firstRet.includes('vitamins/ai/ingredientmono'))
     return null
