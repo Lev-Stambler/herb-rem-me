@@ -21,5 +21,12 @@
       }
     }
   },
-  "projects": {}
+  "projects": {
+    "create-db": {
+      "tags": []
+    },
+    "interfaces": {
+      "tags": []
+    }
+  }
 }

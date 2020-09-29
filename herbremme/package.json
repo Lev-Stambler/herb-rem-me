@@ -26,15 +26,29 @@
     "help": "nx help"
   },
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
+    "node-fetch": "^2.6.1"
+  },
   "devDependencies": {
+    "@nrwl/cli": "^10.2.1",
+    "@nrwl/eslint-plugin-nx": "10.2.1",
+    "@nrwl/jest": "10.2.1",
+    "@nrwl/node": "10.2.1",
     "@nrwl/workspace": "10.2.1",
+    "@types/cheerio": "^0.22.22",
+    "@types/jest": "26.0.8",
     "@types/node": "~8.9.4",
+    "@typescript-eslint/eslint-plugin": "2.19.2",
+    "@typescript-eslint/parser": "2.19.2",
     "dotenv": "6.2.0",
+    "eslint": "6.8.0",
+    "eslint-config-prettier": "6.0.0",
+    "jest": "26.2.2",
+    "prettier": "2.0.4",
+    "ts-jest": "26.1.4",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
-    "eslint": "6.8.0",
-    "typescript": "~3.9.3",
-    "prettier": "2.0.4"
+    "typescript": "~3.9.3"
   }
 }
