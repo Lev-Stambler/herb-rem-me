@@ -17,7 +17,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@herbremme/interfaces": ["libs/interfaces/src/index.ts"]
+      "@herbremme/interfaces": ["libs/interfaces/src/index.ts"],
+      "@herbremme/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

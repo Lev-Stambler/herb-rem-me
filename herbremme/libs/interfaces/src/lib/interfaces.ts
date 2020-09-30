@@ -39,8 +39,13 @@ interface Symptom {
   related?: (mongoID | Symptom)[]
 }
 
-export interface WebMDInfo {
-  webMDMainName: string,
-  otherNames: string[],
-  uses: string[]
+
+export interface SiteScrapeInfo {
+  mainName?: string,
+  otherNames?: string[],
+  uses?: string[]
+
+}
+
+export interface WebMDInfo extends SiteScrapeInfo {
 }
