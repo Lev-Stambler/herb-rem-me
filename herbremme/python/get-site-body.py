@@ -1,8 +1,14 @@
-import dryscrape
+import asyncio
+from pyppeteer import launch
 import sys
 
-session = dryscrape.Session()
-session.visit(sys.argv[1])
-response = session.body()
-print(response)
-sys.stdout.flush()
+async def main():
+  browser = await launch()
+  page = await browser.newPage()
+  await page.goto(sys.argv[1].replace(' ', "%20"))
+  bod = await page.evaluate('document.body.outerHTML', force_expr=True)
+  print(bod.encode(sys.stdout.encoding, errors='replace'))
+  sys.stdout.flush()
+
+df = asyncio.get_event_loop().run_until_complete(main())
+df
