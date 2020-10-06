@@ -18,6 +18,7 @@ export const WMRemedySchema = createSchema({
   uses: Type.array({ required: true }).of(
     Type.ref(Type.objectId()).to('wmuse', WMUseSchema)
   ),
+  initName: Type.string({ required: true })
 });
 
 export const WMRemedy = typedModel('wmremedy', WMRemedySchema);

@@ -1,6 +1,6 @@
 import $ from 'cheerio'
 import { getHTMLBodyFromBrowserPage } from '@herbremme/utils'
-import { WMUseProps, WMRemedy, WMRemedyProps, WMRemedySchema, WMUse } from '@herbremme/hmongo'
+import { WMUseProps, WMRemedy, WMRemedyProps, WMRemedySchema, WMUse, WMUseDoc } from '@herbremme/hmongo'
 import { EfficacyEnum } from '@herbremme/interfaces'
 
 async function getWebMDLinkFromRemedy(remedyName: string): Promise<string | null> {
@@ -23,6 +23,7 @@ export async function getWebMDInfoForRemedy(remedyName: string): Promise<WMRemed
   }
   // const ret = await fetch(webMDLink as string)
   const html = await getHTMLBodyFromBrowserPage(webMDLink as string)
+  // console.log(html)
   const $WebMD = $.load(html)
   const webMDMainName = $WebMD('.vitamin-header h1').text()
   const otherNames = $WebMD('.vitamin-header .other-names p').text().replace('.', '').split(', ')
@@ -43,16 +44,17 @@ export async function getWebMDInfoForRemedy(remedyName: string): Promise<WMRemed
     else return h3SectionToIndividualUses(s, EfficacyEnum[2])
   })
   const uses = nonFlatUses.flat()
-  const proms = uses.map(use => WMUse.updateOne({
+  const proms = uses.map(async use => await WMUse.findOneAndUpdate({
     use: use.use,
     efficacy: use.efficacy
   }, use, { upsert: true }))
-  const usesProps: WMUseProps[] = await Promise.all(proms)
-
+  const usesProps: WMUseDoc[] = await Promise.all(proms)
+  console.log(usesProps)
   await WMRemedy.updateOne({ mainName: webMDMainName }, {
     mainName: webMDMainName,
     otherNames,
-    uses: usesProps.map(use => use._id)
+    uses: usesProps.map(use => use._id),
+    initName: remedyName
   }, { upsert: true })
 }
 

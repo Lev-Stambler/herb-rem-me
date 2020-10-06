@@ -3,7 +3,7 @@ import { Remedy } from '@herbremme/interfaces'
 import { writeFileSync } from 'fs'
 import fetch from 'node-fetch'
 import { getWebMDInfoForRemedy } from './app/webMD'
-import { connectMongoose } from '@herbremme/hmongo'
+import { connectMongoose, WMRemedy } from '@herbremme/hmongo'
 import { environment } from './environments/environment'
 
 const filename = "db.json" // TODO mongodb db
@@ -13,8 +13,18 @@ async function main() {
   const herbs = await getAllHerbsFromTRC()
   writeFileSync('./_files/' + filename, JSON.stringify(herbs))
   for (let i = 0; i < herbs.length; i++) {
-    console.info(`Scraping for herb: ${herbs[i]}`)
-    await getWebMDInfoForRemedy(herbs[i])
+    if (!(await WMRemedy.findOne({ initName: herbs[i] }))) {
+      console.info(`Scraping for herb: ${herbs[i]}`)
+      try {
+        await getWebMDInfoForRemedy(herbs[i])
+      } catch (e) {
+        console.error("Error from WM:", e)
+        console.log("Moving on")
+      }
+      await new Promise((resolve, reject) => {
+        setTimeout(() => resolve(), 10000)
+      })
+    }
   }
 }
 
