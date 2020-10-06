@@ -8,7 +8,7 @@ import {
 import { EfficacyEnum } from '@herbremme/interfaces'
 
 const WMUseSchema = createSchema({
-  use: Type.string({ required: true, unique: true }),
+  use: Type.string({ required: true, }),
   efficacy: Type.string({ required: true, enum: EfficacyEnum })
 });
 

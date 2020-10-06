@@ -12,26 +12,12 @@ async function main() {
   // Get a list of all herbs
   const herbs = await getAllHerbsFromTRC()
   writeFileSync('./_files/' + filename, JSON.stringify(herbs))
-  // Find the herbs'  info from webMD
-}
-
-/**
- * TODO following section to different file
- * @param remedyName 
- */
-
-
-async function getRemedyInfo(remedyName: string): Promise<Remedy> {
-  return {
-    name: remedyName,
-    info: {
-      uses: [],
-      sideEffects: [],
-      otherNames: []
-    },
-    noInfoFound: false
+  for (let i = 0; i < herbs.length; i++) {
+    console.info(`Scraping for herb: ${herbs[i]}`)
+    await getWebMDInfoForRemedy(herbs[i])
   }
 }
+
 // TODO end diff file
 
 // TODO scrape http://www.naturalmedicinalherbs.net/herbs/latin-names/
@@ -57,6 +43,6 @@ async function getAllHerbsFromTRC(): Promise<string[]> {
 }
 
 console.log("Running create-db")
-// main()
-connectMongoose(environment.DB.USER, environment.DB.PASS, environment.DB.DB)
-  .then(() => getWebMDInfoForRemedy('Andrachne'))
+main()
+// connectMongoose(environment.DB.USER, environment.DB.PASS, environment.DB.DB)
+//   .then(() => getWebMDInfoForRemedy('turmeric'))

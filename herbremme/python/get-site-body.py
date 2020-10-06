@@ -7,7 +7,7 @@ async def main():
   page = await browser.newPage()
   await page.goto(sys.argv[1].replace(' ', "%20"))
   bod = await page.evaluate('document.body.outerHTML', force_expr=True)
-  print(bod.encode(sys.stdout.encoding, errors='replace'))
+  print(bod.encode(sys.stdout.encoding, errors='replace').decode("utf-8"))
   sys.stdout.flush()
 
 df = asyncio.get_event_loop().run_until_complete(main())
