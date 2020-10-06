@@ -8,7 +8,11 @@ export function interfaces(): string {
 type mongoID = string
 /****** end mongo typings */
 
-type Efficacy = number
+export const EfficacyEnum = [
+  'Possibly Effective for',
+  'Possibly Ineffective for',
+  'Insufficient Evidence for'
+] as const
 
 export interface Remedy {
   name: string,
@@ -37,15 +41,4 @@ interface Source {
 interface Symptom {
   name: string,
   related?: (mongoID | Symptom)[]
-}
-
-
-export interface SiteScrapeInfo {
-  mainName?: string,
-  otherNames?: string[],
-  uses?: string[]
-
-}
-
-export interface WebMDInfo extends SiteScrapeInfo {
 }

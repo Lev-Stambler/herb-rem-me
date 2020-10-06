@@ -18,7 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@herbremme/interfaces": ["libs/interfaces/src/index.ts"],
-      "@herbremme/utils": ["libs/utils/src/index.ts"]
+      "@herbremme/utils": ["libs/utils/src/index.ts"],
+      "@herbremme/hmongo": ["libs/hmongo/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

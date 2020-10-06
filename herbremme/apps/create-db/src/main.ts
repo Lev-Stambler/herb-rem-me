@@ -2,12 +2,17 @@ import $ from 'cheerio'
 import { Remedy } from '@herbremme/interfaces'
 import { writeFileSync } from 'fs'
 import fetch from 'node-fetch'
-import { getWebMDInfo } from './app/webMD'
+import { getWebMDInfoForRemedy } from './app/webMD'
+import { connectMongoose } from '@herbremme/hmongo'
+import { environment } from './environments/environment'
 
 const filename = "db.json" // TODO mongodb db
 async function main() {
+  await connectMongoose(environment.DB.USER, environment.DB.PASS, environment.DB.DB)
+  // Get a list of all herbs
   const herbs = await getAllHerbsFromTRC()
   writeFileSync('./_files/' + filename, JSON.stringify(herbs))
+  // Find the herbs'  info from webMD
 }
 
 /**
@@ -53,4 +58,5 @@ async function getAllHerbsFromTRC(): Promise<string[]> {
 
 console.log("Running create-db")
 // main()
-getWebMDInfo('Andrachne')
+connectMongoose(environment.DB.USER, environment.DB.PASS, environment.DB.DB)
+  .then(() => getWebMDInfoForRemedy('Andrachne'))

@@ -107,6 +107,32 @@
           }
         }
       }
+    },
+    "hmongo": {
+      "root": "libs/hmongo",
+      "sourceRoot": "libs/hmongo/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": [
+              "libs/hmongo/tsconfig.lib.json",
+              "libs/hmongo/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/hmongo/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/hmongo/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
