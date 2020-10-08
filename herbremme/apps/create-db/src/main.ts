@@ -3,8 +3,9 @@ import { Remedy } from '@herbremme/interfaces'
 import { writeFileSync } from 'fs'
 import fetch from 'node-fetch'
 import { getWebMDInfoForRemedy } from './app/webMD'
-import { connectMongoose, WMRemedy } from '@herbremme/hmongo'
+import { connectMongoose, TCIMUse, WMRemedy } from '@herbremme/hmongo'
 import { environment } from './environments/environment'
+import { TCIMParseTxt } from './app/TCMID'
 
 const filename = "db.json" // TODO mongodb db
 async function main() {
@@ -53,6 +54,6 @@ async function getAllHerbsFromTRC(): Promise<string[]> {
 }
 
 console.log("Running create-db")
-main()
-// connectMongoose(environment.DB.USER, environment.DB.PASS, environment.DB.DB)
-//   .then(() => getWebMDInfoForRemedy('turmeric'))
+// main()
+connectMongoose(environment.DB.USER, environment.DB.PASS, environment.DB.DB)
+  .then(async () => await TCIMParseTxt())
